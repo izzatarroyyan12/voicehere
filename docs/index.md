@@ -24,4 +24,4 @@ Orang dengan disabilitas tuna rungu, tuna wicara, maupun tuna netra memiliki ket
 ### Ide Solusi
 Aplikasi web untuk mentranslasi suara ke teks    
 Rancangan Solusi
-![img](https://github.com/izzatarroyyan12/voicehere/blob/main/img/rancanganSolusi.png)
+![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/rancanganSolusi.png)
