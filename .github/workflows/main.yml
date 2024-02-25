@@ -1,4 +1,4 @@
-name: Test, Build, and Deploy Voicehere
+name: Test Build Voicehere
 
 on:
   push:
@@ -14,15 +14,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Display Directory Contents
-        run: ls -lR
-
-      - name: Testing Build pre-Deploy
-        uses: actions/setup-node@v2
+      - name: testing build
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "frontend/npm"
-
+        cache: 'npm'
+      - run: cd frontend
       - run: npm i
-      - run: npm run build
+      - run: npm run build  
