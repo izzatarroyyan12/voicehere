@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
 
-
 jobs:
   test-build:
     runs-on: ubuntu-latest
@@ -15,10 +14,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Display Directory Contents
+        run: ls -lR
+
       - name: Testing Build pre-Deploy
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+
       - run: npm i
       - run: npm run build
