@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "frontend/node_modules"
+          cache: "frontend/npm"
 
       - run: npm i
       - run: npm run build
