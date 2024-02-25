@@ -32,3 +32,23 @@ Aplikasi web untuk mentranslasi suara ke teks
 
 ### Lean Canvas Business Model    
 ![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/leanCanvas.png)
+
+### Metodologi SDLC
+Pada project ini, kami menggunakan kanban. Alasan pemilihan metodologi ini adalah karena kanban mendukung kemudahan dalam memvisualisasikan proses. Pada kanban, sebuah fitur akan dimasukkan di dalam board dan diberi label berdasarkan proses yang sedang dijalani. Hal tersebut memberikan fleksibilitas kepada pengembang dalam mengembangkan perangkat lunak.
+
+### Perancangan Tahap 1-3 SDLC
+#### Tujuan produk
+- **Inklusivitas**: Speech-to-text membantu menciptakan lingkungan yang lebih inklusif bagi orang dengan gangguan pendengaran atau tuli. Dengan menerjemahkan ucapan menjadi teks, orang-orang yang tidak dapat mendengar dengan mudah dapat mengakses informasi yang disampaikan melalui percakapan atau presentasi lisan
+- **Peningkatan Pembelajaran**: Informasi yang berupa tulisan memberikan waktu yang lebih cepat jika dibandingkan dengan mendengarkan audio atau menonton video 
+#### Pengguna potensial dari produk dan kebutuhan para pengguna tersebut
+Disabilitas tuli, pelajar, mahasiswa 
+#### Use Case Diagram
+![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/useCaseDiagram.png)
+#### Functional Requirements untuk Use Case yang Telah Dirancang
+![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/functionalReq.png)
+#### Entity Relationship Diagram
+![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/ERD.png)
+#### Low-fidelity Wireframe
+[Link Gambar Lo-Fi Wireframe](https://excalidraw.com/#room=d68c6b382d4699c6bc64,Vnkxxq8ab8epNCXTfZLuMg)
+#### Gantt-chart Pengembangan Proyek dalam Kurun Waktu 1 Semester
+![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/ganttChart.png)
