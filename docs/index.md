@@ -22,6 +22,13 @@ Orang dengan disabilitas tuna rungu, tuna wicara, maupun tuna netra memiliki ket
 - Bagaimana kita dapat merancang antarmuka yang intuitif dan mudah digunakan bagi para pengguna dengan keterbatasan?
 
 ### Ide Solusi
-Aplikasi web untuk mentranslasi suara ke teks    
-Rancangan Solusi
+Aplikasi web untuk mentranslasi suara ke teks        
 ![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/rancanganSolusi.png)
+
+### Analisis Kompetitor
+#### ![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/kompetitor1.png)
+#### ![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/kompetitor2.png)
+#### ![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/kompetitor3.png)
+
+### Lean Canvas Business Model    
+![img](https://raw.githubusercontent.com/izzatarroyyan12/voicehere/main/img/leanCanvas.png)
