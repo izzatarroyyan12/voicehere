@@ -86,7 +86,7 @@ export default function Home() {
         <div
           className={`w-full grid place-content-center bg-slate-50 min-h-[500px] border-2 border-dashed border-black rounded-3xl ${audio ? '' : 'cursor-pointer'}`}
         >
-          {mode == Mode.HOMR && (
+          {mode == Mode.IDLE && (
             <div data-name="inputAudioField">
               <input
                 type="file"
