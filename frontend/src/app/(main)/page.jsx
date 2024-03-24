@@ -1,8 +1,10 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { getFileFromLocalStorage, storeFileToLocalStorage } from '@/helper/local-storage';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { BsCheckCircleFill, BsFileEarmarkTextFill } from 'react-icons/bs';
+import { IoCloseCircle, IoCloudUploadOutline } from 'react-icons/io5';
 import { MdAudioFile } from 'react-icons/md';
-import { BsFileEarmarkTextFill, BsCheckCircleFill } from 'react-icons/bs';
-import { IoCloudUploadOutline, IoCloseCircle } from 'react-icons/io5';
 
 const Mode = {
   IDLE: 'idle',
@@ -14,6 +16,8 @@ const Mode = {
 export default function Home() {
   const [mode, setMode] = useState(Mode.IDLE);
   const [audio, setAudio] = useState(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const file = getFileFromLocalStorage();
@@ -30,15 +34,6 @@ export default function Home() {
       }, 3000);
     }
   }, [mode]);
-
-  const storeFileToLocalStorage = (file) => {
-    localStorage.setItem('audio', JSON.stringify(file));
-  };
-
-  const getFileFromLocalStorage = () => {
-    const file = JSON.parse(localStorage.getItem('audio'));
-    return file;
-  };
 
   const uploadAudioFile = (e) => {
     e.preventDefault();
@@ -125,6 +120,7 @@ export default function Home() {
                   onClick={() => {
                     setAudio(null);
                     storeFileToLocalStorage(null);
+                    setMode(Mode.IDLE);
                   }}
                 />
                 <MdAudioFile size={128} color="black" />
@@ -168,7 +164,9 @@ export default function Home() {
               </div>
               <button
                 className="w-fit rounded-md font-semibold text-lg px-3 py-1 bg-[#304FFE] text-white"
-                onClick={() => setMode(Mode.IDLE)}
+                onClick={() => {
+                  router.push('/result');
+                }}
               >
                 Check Result
               </button>
