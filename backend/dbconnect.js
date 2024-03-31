@@ -1,22 +1,19 @@
-const { Client } = require('pg');
-require('dotenv').config();
+const { Sequelize } = require('sequelize');
 
-(async () => {
-  const client = new Client({
-    host: process.env.PG_HOST,
-    port: process.env.PG_PORT,
-    user: process.env.PG_USER,
-    password: process.env.PG_PASSWORD,
-    database: process.env.PG_DATABASE,
+// Initialize Sequelize with your database connection details
+const sequelize = new Sequelize(process.env.PG_DATABASE, process.env.PG_USER, process.env.PG_PASSWORD, {
+  host: process.env.PG_HOST,
+  port: process.env.PG_PORT,
+  dialect: 'postgres', // or any other dialect like 'mysql' or 'sqlite'
+});
+
+// Test the database connection and log a message
+sequelize.authenticate()
+  .then(() => {
+    console.log('Database connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
   });
 
-  try {
-    await client.connect();
-    const res = await client.query('SELECT $1::text as connected', ['Connection to PostgreSQL successful!']);
-    console.log(res.rows[0].connected);
-  } catch (error) {
-    console.error('Error connecting to PostgreSQL:', error.message);
-  } finally {
-    await client.end();
-  }
-})();
+module.exports = sequelize;

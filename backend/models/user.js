@@ -1,4 +1,3 @@
-// models/user.js
 const { DataTypes } = require('sequelize');
 const db = require('../dbconnect'); // Import your database connection (dbconnect.js)
 
