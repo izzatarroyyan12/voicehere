@@ -1,5 +1,7 @@
 'use client';
-import { getFileFromLocalStorage, storeFileToLocalStorage } from '@/helper/local-storage';
+import supabaseClient from '@/config/supabase';
+import { v4 } from 'uuid';
+import { getAudioFromLocalStorage, storeAudioToLocalStorage } from '@/helper/local-storage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BsCheckCircleFill, BsFileEarmarkTextFill } from 'react-icons/bs';
@@ -20,7 +22,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    const file = getFileFromLocalStorage();
+    const file = getAudioFromLocalStorage();
     if (file) {
       setAudio(file);
       setMode(Mode.UPLOAD);
@@ -35,23 +37,34 @@ export default function Home() {
     }
   }, [mode]);
 
-  const uploadAudioFile = (e) => {
+  const uploadAudioFile = async (e) => {
     e.preventDefault();
-    const reader = new FileReader();
+
     const file = e.target.files[0] ? e.target.files[0] : null;
 
     if (!file) return;
 
-    setAudio(file);
-    reader.onload = (e) => {
-      storeFileToLocalStorage({
+    const { data, error } = await supabaseClient.storage
+      .from('audio-bucket')
+      .upload(`${file.name}_${v4()}`, file);
+
+    if (error) return;
+
+    const {
+      data: { publicUrl },
+    } = supabaseClient.storage.from('audio-bucket').getPublicUrl(data.path);
+
+    setMode(Mode.UPLOAD);
+
+    if (data) {
+      setAudio(file);
+
+      storeAudioToLocalStorage({
         name: file.name,
         type: file.type,
-        content: e.target.result,
+        url: publicUrl,
       });
-    };
-    reader.readAsDataURL(file);
-    setMode(Mode.UPLOAD);
+    }
   };
 
   const dropAudioFile = (e) => {
@@ -64,7 +77,7 @@ export default function Home() {
     const file = files[0];
     setAudio(file);
     reader.onload = (e) => {
-      storeFileToLocalStorage({
+      storeAudioToLocalStorage({
         name: file.name,
         type: file.type,
         content: e.target.result,
@@ -119,7 +132,7 @@ export default function Home() {
                   className="absolute top-2 right-2 cursor-pointer"
                   onClick={() => {
                     setAudio(null);
-                    storeFileToLocalStorage(null);
+                    storeAudioToLocalStorage(null);
                     setMode(Mode.IDLE);
                   }}
                 />

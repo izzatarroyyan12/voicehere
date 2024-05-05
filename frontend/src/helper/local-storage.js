@@ -1,17 +1,17 @@
 'use client';
 
-const storeFileToLocalStorage = (file) => {
+const storeAudioToLocalStorage = (file) => {
   if (typeof window !== 'undefined' && window.localStorage) {
     localStorage.setItem('audio', JSON.stringify(file));
   }
 };
 
-const getFileFromLocalStorage = () => {
+const getAudioFromLocalStorage = () => {
   if (typeof window !== 'undefined' && window.localStorage) {
-    const file = JSON.parse(localStorage.getItem('audio'));
-    return file;
+    const audioUrl = JSON.parse(localStorage.getItem('audio'));
+    return audioUrl;
   }
   return null;
 };
 
-export { storeFileToLocalStorage, getFileFromLocalStorage };
+export { storeAudioToLocalStorage, getAudioFromLocalStorage };
