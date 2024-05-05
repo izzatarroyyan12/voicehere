@@ -1,9 +1,10 @@
 // userController.js
-const User = require('../models/user'); // Import the User model
-const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const User = require('../models/user');
 
 // Register a new user
-exports.registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const { username, password, role } = req.body;
 
   try {
@@ -34,3 +35,57 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ error: 'Error registering user' });
   }
 };
+
+// Login function
+const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Case-insensitive search for username
+    const user = await User.findOne({ where: { username: username.toLowerCase() } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({ error: 'Invalid password' });
+    }
+
+    const accessToken = jwt.sign({ id: user.user_id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(200)
+      .cookie(
+        'token', accessToken, {
+          httpOnly: true,
+          secure: true
+        })
+      .json({
+        message: 'Login success',
+        token: accessToken,
+        user
+      });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Logout function
+const logoutUser = async (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: 'No user is logged in' });
+  }
+  try {
+    res.status(200)
+      .clearCookie('token')
+      .json({ message: 'Logout success' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Export all functions together
+module.exports = { registerUser, loginUser, logoutUser };
