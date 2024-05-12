@@ -3,14 +3,12 @@
 import AudioPlayer from '@/app/components/AudioPlayer';
 import { getAudioFromLocalStorage } from '@/helper/local-storage';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 
 export default function Result() {
   const router = useRouter();
-  const audioRef = useRef(null);
   const [audio, setAudio] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const audio = getAudioFromLocalStorage();
@@ -20,15 +18,6 @@ export default function Result() {
       router.push('/');
     }
   }, []);
-
-  const togglePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
 
   return (
     <div className="flex justify-center px-5 pb-10">
