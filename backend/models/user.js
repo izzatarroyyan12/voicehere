@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 const db = require('../dbconnect'); // Import your database connection (dbconnect.js)
 
-const User = db.define('User', {
+const User = db.define('user', {
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     primaryKey: true,
     autoIncrement: true,
   },
@@ -18,8 +18,11 @@ const User = db.define('User', {
   },
   role: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false, // Assuming false means regular user and true means admin
+    defaultValue: false,
   },
+}, {
+  tableName: 'user',
+  timestamps: false,
 });
 
-module.exports = User;
+module.exports = { User}; // Export User model and createUser function
