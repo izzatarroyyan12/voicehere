@@ -1,9 +1,9 @@
-// userController.js
+//controller
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
+const { User } = require('../models/user');
+const { v4: uuidv4 } = require('uuid');
 
-// Register a new user
 const registerUser = async (req, res) => {
   const { username, password, role } = req.body;
 
@@ -22,8 +22,12 @@ const registerUser = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Generate a random user_id (UUID)
+    const user_id = uuidv4();
+
     // Create a new user
     const newUser = await User.create({
+      user_id,
       username,
       password: hashedPassword,
       role,
@@ -35,6 +39,7 @@ const registerUser = async (req, res) => {
     res.status(500).json({ error: 'Error registering user' });
   }
 };
+
 
 // Login function
 const loginUser = async (req, res) => {
