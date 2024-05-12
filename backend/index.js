@@ -1,7 +1,14 @@
+//index
 require('dotenv').config();
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
-const port = process.env.PORT || 8080;
+const userRoutes = require('./routes/user'); // Import the userRoutes
+const port = process.env.PORT || 6001;
+
+app.use(cookieParser());
+app.use(express.json()); // Middleware to parse JSON requests
+app.use('/user', userRoutes); // Mount the userRoutes under the "/users" path
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -10,5 +17,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('app is running at port:', port);
+  console.log(`Server running on port ${port}`);
 });
