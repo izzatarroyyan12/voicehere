@@ -9,14 +9,15 @@ import { IoCloseCircle, IoCloudUploadOutline } from 'react-icons/io5';
 import { MdAudioFile } from 'react-icons/md';
 
 const Mode = {
+  INIT: 'init',
   IDLE: 'idle',
-  UPLOAD: 'upload',
+  UPLOADED: 'uploaded',
   PROCESS: 'process',
   DONE: 'done',
 };
 
 export default function Home() {
-  const [mode, setMode] = useState(Mode.IDLE);
+  const [mode, setMode] = useState(Mode.INIT);
   const [audio, setAudio] = useState(null);
 
   const router = useRouter();
@@ -25,7 +26,9 @@ export default function Home() {
     const file = getAudioFromLocalStorage();
     if (file) {
       setAudio(file);
-      setMode(Mode.UPLOAD);
+      setMode(Mode.UPLOADED);
+    } else {
+      setMode(Mode.IDLE);
     }
   }, []);
 
@@ -54,37 +57,51 @@ export default function Home() {
       data: { publicUrl },
     } = supabaseClient.storage.from('audio-bucket').getPublicUrl(data.path);
 
-    setMode(Mode.UPLOAD);
-
     if (data) {
       setAudio(file);
-
       storeAudioToLocalStorage({
         name: file.name,
         type: file.type,
         url: publicUrl,
       });
+      setMode(Mode.UPLOADED);
     }
   };
 
-  const dropAudioFile = (e) => {
+  const dropAudioFile = async (e) => {
     e.preventDefault();
+
     const reader = new FileReader();
     const files = [...e.dataTransfer.files];
 
     if (files.length > 1) return;
 
     const file = files[0];
+
+    const { data, error } = await supabaseClient.storage
+      .from('audio-bucket')
+      .upload(`${file.name}_${v4()}`, file);
+
+    if (error) return;
+
+    const {
+      data: { publicUrl },
+    } = supabaseClient.storage.from('audio-bucket').getPublicUrl(data.path);
+
     setAudio(file);
+
     reader.onload = (e) => {
       storeAudioToLocalStorage({
         name: file.name,
         type: file.type,
-        content: e.target.result,
+        url: publicUrl,
       });
     };
     reader.readAsDataURL(file);
-    setMode(Mode.UPLOAD);
+
+    if (data) {
+      setMode(Mode.UPLOADED);
+    }
   };
 
   return (
@@ -94,6 +111,7 @@ export default function Home() {
         <div
           className={`w-full grid place-content-center bg-slate-50 min-h-[500px] border-2 border-dashed border-black rounded-3xl ${audio ? '' : 'cursor-pointer'}`}
         >
+          {mode === Mode.INIT && null}
           {mode == Mode.IDLE && (
             <div data-name="inputAudioField">
               <input
@@ -123,7 +141,7 @@ export default function Home() {
             </div>
           )}
 
-          {mode == Mode.UPLOAD && (
+          {mode == Mode.UPLOADED && (
             <div data-name="fileUploaded" className="flex flex-col items-center gap-y-8">
               <div className="relative flex flex-col items-center gap-y-3 pt-16 pb-8 bg-[#304FFE]/10 px-5 rounded-lg">
                 <IoCloseCircle
