@@ -1,6 +1,6 @@
 // transcription.js
 const { DataTypes } = require('sequelize');
-const db = require('../db'); // Import database connection
+const db = require('../dbconnect'); // Import database connection
 const User = require('./user'); // Import the User model
 
 const Transcription = db.define('Transcription', {
@@ -27,6 +27,6 @@ const Transcription = db.define('Transcription', {
   },
 });
 
-Transcription.belongsTo(User, { foreignKey: 'user_id' }); // Transcription belongs to User
+// Transcription.belongsTo(User, { foreignKey: 'user_id' }); // Transcription belongs to User
 
 module.exports = Transcription;

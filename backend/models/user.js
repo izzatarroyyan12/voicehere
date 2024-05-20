@@ -24,4 +24,4 @@ const User = db.define('user', {
   timestamps: false,
 });
 
-module.exports = { User}; // Export User model and createUser function
+module.exports = User; // Export User model and createUser function

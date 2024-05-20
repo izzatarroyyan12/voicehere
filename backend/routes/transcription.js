@@ -1,7 +1,7 @@
 // routes/transcription.js
 const express = require('express');
 const router = express.Router();
-const { createTranscription, getUserTranscriptions } = require('../controllers/transcriptionController');
+const { createTranscription, getUserTranscriptions } = require('../controllers/transcription');
 const { verifyToken } = require('../middlewares/auth');
 
 // Route to create a new transcription
