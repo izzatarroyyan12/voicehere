@@ -1,6 +1,6 @@
 // transcription.js
 const { DataTypes } = require('sequelize');
-const db = require('../db'); // Import database connection
+const db = require('../dbconnect'); // Import database connection
 const User = require('./user'); // Import the User model
 
 const Transcription = db.define('Transcription', {
@@ -10,7 +10,7 @@ const Transcription = db.define('Transcription', {
     autoIncrement: true,
   },
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   text: {
