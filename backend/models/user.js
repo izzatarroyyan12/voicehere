@@ -1,7 +1,8 @@
+//user.js model
 const { DataTypes } = require('sequelize');
-const db = require('../dbconnect'); // Import your database connection (dbconnect.js)
+const db = require('../dbconnect'); // Import your database connection
 
-const User = db.define('user', {
+const User = db.define('User', {
   user_id: {
     type: DataTypes.STRING,
     primaryKey: true,

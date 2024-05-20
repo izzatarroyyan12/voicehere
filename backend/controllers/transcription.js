@@ -1,4 +1,4 @@
-// controllers/transcriptionController.js
+// controllers/transcription.js
 const Transcription = require('../models/transcription');
 const User = require('../models/user');
 
