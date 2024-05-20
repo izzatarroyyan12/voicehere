@@ -1,4 +1,4 @@
-// transcription.js
+// transcription.js model
 const { DataTypes } = require('sequelize');
 const db = require('../dbconnect'); // Import database connection
 const User = require('./user'); // Import the User model
