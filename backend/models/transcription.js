@@ -5,9 +5,8 @@ const User = require('./user'); // Import the User model
 
 const Transcription = db.define('Transcription', {
   transcription_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     primaryKey: true,
-    autoIncrement: true,
   },
   user_id: {
     type: DataTypes.STRING,
