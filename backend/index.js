@@ -10,7 +10,7 @@ const port = process.env.PORT || 6001;
 app.use(cookieParser());
 app.use(express.json()); // Middleware to parse JSON requests
 app.use('/user', userRoutes); // Mount the userRoutes under the "/users" path
-app.use('/', transcriptionRoutes);
+app.use('/transcription', transcriptionRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({

@@ -23,9 +23,12 @@ const Transcription = db.define('Transcription', {
   audio_file: {
     type: DataTypes.STRING,
     allowNull: true, // Adjust as needed
-  },
+  }, 
+}, {
+  tableName: 'transcription',
+  timestamps: false,
 });
 
-// Transcription.belongsTo(User, { foreignKey: 'user_id' }); // Transcription belongs to User
+Transcription.belongsTo(User, { foreignKey: 'user_id' }); // Transcription belongs to User
 
 module.exports = Transcription;
