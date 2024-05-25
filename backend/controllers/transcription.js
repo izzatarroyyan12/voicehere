@@ -1,15 +1,18 @@
 // controllers/transcription.js
 const Transcription = require('../models/transcription');
 const User = require('../models/user');
+const { v4: uuidv4 } = require('uuid');
 
 // Insert a new transcription
 const createTranscription = async (req, res) => {
-  const { text, timestamp, audio_file } = req.body;
+  const { text, audio_file } = req.body;
   const user_id = req.user.user_id;
-
+  const transcription_id = uuidv4();
+  const timestamp = Math.floor(Date.now() / 1000);
   try {
     // Create new transcription
     const transcription = await Transcription.create({
+      transcription_id,
       user_id,
       text,
       timestamp,
