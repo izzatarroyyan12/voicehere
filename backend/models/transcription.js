@@ -37,4 +37,6 @@ const Transcription = db.define(
   }
 );
 
+Transcription.belongsTo(User, { foreignKey: 'user_id' }); // Transcription belongs to User
+
 module.exports = Transcription;
