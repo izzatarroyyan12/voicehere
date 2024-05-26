@@ -44,7 +44,7 @@ const getUserTranscriptions = async (req, res) => {
       where: { user_id },
       include: {
         model: User,
-        attributes: ['username'], // Adjust attributes as needed
+        attributes: ['username'],
       },
     });
 
@@ -55,8 +55,49 @@ const getUserTranscriptions = async (req, res) => {
   }
 };
 
+const getTranscription = async (req, res) => {
+  const transcription_id = req.params.id;
+
+  try {
+    const transcription = await Transcription.findOne({
+      where: { transcription_id },
+      include: {
+        model: User,
+        attributes: ['username'],
+      },
+    });
+
+    res.status(200).json(transcription);
+  } catch (error) {
+    console.error('Error retrieving transcription:', error.message);
+    res.status(500).json({ error: 'Error retrieving transcription' });
+  }
+};
+
+const deleteTranscription = async (req, res) => {
+  const transcription_id = req.params.id;
+
+  try {
+    const transcription = await Transcription.findOne({
+      where: { transcription_id },
+    });
+
+    if (!transcription) {
+      return res.status(404).json({ error: 'Transcription not found' });
+    }
+
+    await transcription.destroy();
+    res.status(200).json({ message: 'Transcription deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting transcription:', error.message);
+    res.status(500).json({ error: 'Error deleting transcription' });
+  }
+};
+
 const transcriptionController = {
+  getTranscription,
   saveTranscription,
+  deleteTranscription,
   getUserTranscriptions,
   createTranscription,
 };

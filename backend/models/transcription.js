@@ -1,9 +1,9 @@
 // transcription.js model
 const { DataTypes } = require('sequelize');
-const db = require('../dbconnect'); // Import database connection
-const User = require('./user'); // Import the User model
+const sequelize = require('../dbconnect');
+const User = require('./user');
 
-const Transcription = db.define(
+const Transcription = sequelize.define(
   'Transcription',
   {
     transcription_id: {
@@ -24,7 +24,7 @@ const Transcription = db.define(
     },
     audio_file: {
       type: DataTypes.STRING,
-      allowNull: true, // Adjust as needed
+      allowNull: true,
     },
     audio_name: {
       type: DataTypes.STRING,
@@ -37,6 +37,7 @@ const Transcription = db.define(
   }
 );
 
-Transcription.belongsTo(User, { foreignKey: 'user_id' }); // Transcription belongs to User
+User.hasMany(Transcription, { foreignKey: 'user_id' });
+Transcription.belongsTo(User, { foreignKey: 'user_id' });
 
 module.exports = Transcription;
