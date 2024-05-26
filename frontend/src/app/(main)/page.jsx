@@ -1,12 +1,15 @@
 'use client';
+
+import api from '@/config/api';
 import supabaseClient from '@/config/supabase';
-import { v4 } from 'uuid';
 import { getAudioFromLocalStorage, storeAudioToLocalStorage } from '@/helper/local-storage';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BsCheckCircleFill, BsFileEarmarkTextFill } from 'react-icons/bs';
 import { IoCloseCircle, IoCloudUploadOutline } from 'react-icons/io5';
 import { MdAudioFile } from 'react-icons/md';
+import { v4 } from 'uuid';
 
 const Mode = {
   INIT: 'init',
@@ -32,13 +35,13 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (mode == Mode.PROCESS) {
-      setTimeout(() => {
-        setMode(Mode.DONE);
-      }, 3000);
-    }
-  }, [mode]);
+  // useEffect(() => {
+  //   if (mode == Mode.PROCESS) {
+  //     setTimeout(() => {
+  //       setMode(Mode.DONE);
+  //     }, 3000);
+  //   }
+  // }, [mode]);
 
   const uploadAudioFile = async (e) => {
     e.preventDefault();
@@ -104,6 +107,31 @@ export default function Home() {
     }
   };
 
+  const transcribeAudioFile = async () => {
+    setMode(Mode.PROCESS);
+
+    try {
+      const response = await api.post(
+        '/transcribe',
+        {
+          audio_file: audio.url,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        setMode(Mode.DONE);
+        sessionStorage.setItem('transcription', response.data.text);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex justify-center px-5 pb-10">
       <div className="w-full max-w-[1280px] p-2">
@@ -161,8 +189,8 @@ export default function Home() {
                 </div>
               </div>
               <button
+                onClick={transcribeAudioFile}
                 className="w-fit rounded-md font-semibold text-lg px-3 py-1 bg-[#304FFE] text-white"
-                onClick={() => setMode(Mode.PROCESS)}
               >
                 Transcribe Now
               </button>
