@@ -12,8 +12,9 @@ const createTranscription = async (req, res) => {
 
 // Insert a new transcription
 const saveTranscription = async (req, res) => {
-  const { text, audio_file } = req.body;
+  const { text, audio_file, audio_name } = req.body;
   const user_id = req.user.user_id;
+
   const transcription_id = uuidv4();
   const timestamp = Math.floor(Date.now() / 1000);
   try {
@@ -24,12 +25,13 @@ const saveTranscription = async (req, res) => {
       text,
       timestamp,
       audio_file,
+      audio_name,
     });
-
     res.status(201).json({ message: 'Transcription created successfully', transcription });
   } catch (error) {
+    console.log(error);
     console.error('Error creating transcription:', error.message);
-    res.status(500).json({ error: 'Error creating transcription' });
+    res.status(500).json({ error });
   }
 };
 
@@ -53,8 +55,10 @@ const getUserTranscriptions = async (req, res) => {
   }
 };
 
-module.exports = {
+const transcriptionController = {
   saveTranscription,
   getUserTranscriptions,
   createTranscription,
 };
+
+module.exports = transcriptionController;
