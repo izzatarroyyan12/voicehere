@@ -3,8 +3,15 @@ const Transcription = require('../models/transcription');
 const User = require('../models/user');
 const { v4: uuidv4 } = require('uuid');
 
-// Insert a new transcription
 const createTranscription = async (req, res) => {
+  const { audio_file } = req.body;
+  const text = 'This is a dummy transcription';
+
+  res.status(200).json({ text, audio_file });
+};
+
+// Insert a new transcription
+const saveTranscription = async (req, res) => {
   const { text, audio_file } = req.body;
   const user_id = req.user.user_id;
   const transcription_id = uuidv4();
@@ -46,4 +53,8 @@ const getUserTranscriptions = async (req, res) => {
   }
 };
 
-module.exports = { createTranscription, getUserTranscriptions };
+module.exports = {
+  saveTranscription,
+  getUserTranscriptions,
+  createTranscription,
+};
