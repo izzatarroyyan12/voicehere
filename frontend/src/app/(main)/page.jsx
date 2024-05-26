@@ -1,15 +1,15 @@
 'use client';
 
+import api from '@/config/api';
 import supabaseClient from '@/config/supabase';
-import { v4 } from 'uuid';
 import { getAudioFromLocalStorage, storeAudioToLocalStorage } from '@/helper/local-storage';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsCheckCircleFill, BsFileEarmarkTextFill } from 'react-icons/bs';
 import { IoCloseCircle, IoCloudUploadOutline } from 'react-icons/io5';
 import { MdAudioFile } from 'react-icons/md';
-import api from '@/config/api';
-import Cookies from 'js-cookie';
+import { v4 } from 'uuid';
 
 const Mode = {
   INIT: 'init',

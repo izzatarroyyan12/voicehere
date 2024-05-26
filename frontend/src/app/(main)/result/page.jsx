@@ -12,6 +12,9 @@ import { IoArrowBack } from 'react-icons/io5';
 export default function Result() {
   const router = useRouter();
   const [audio, setAudio] = useState(null);
+  const [text, setText] = useState('');
+
+  console.log(audio);
 
   const saveTranscriptionResult = async () => {
     const transcription = sessionStorage.getItem('transcription');
@@ -21,6 +24,7 @@ export default function Result() {
         '/transcribe/save',
         {
           audio_file: audio.url,
+          audio_name: audio.name,
           text: transcription,
         },
         {
@@ -30,13 +34,12 @@ export default function Result() {
         },
       );
 
-      if (response.status === 200) {
-        router.push('/');
-        toast.success('Transkripsi berhasil disimpan');
+      if (response.status === 201) {
         localStorage.removeItem('audio');
+        toast.success('Transkripsi berhasil disimpan');
+        router.push('/');
       }
     } catch (error) {
-      console.error(error);
       toast.error(error.message);
     }
   };
@@ -48,6 +51,9 @@ export default function Result() {
     } else {
       router.push('/');
     }
+
+    const transcription = sessionStorage.getItem('transcription');
+    setText(transcription);
   }, []);
 
   return (
@@ -65,7 +71,7 @@ export default function Result() {
           Save
         </button>
       </div>
-      <div className="mt-4 border p-2">{sessionStorage.getItem('transcription')}</div>
+      <div className="mt-4 border p-2">{text}</div>
 
       {audio && <AudioPlayer publicUrl={audio.url} />}
     </div>
