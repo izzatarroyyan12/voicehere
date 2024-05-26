@@ -8,7 +8,6 @@ export default function Layout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log(pathname === '/');
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {

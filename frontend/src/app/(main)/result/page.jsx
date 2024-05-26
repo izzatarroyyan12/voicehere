@@ -66,7 +66,7 @@ export default function Result() {
 
         <button
           onClick={saveTranscriptionResult}
-          className="mt-4 px-4 py-2 bg-[#204A77] text-white rounded-xl"
+          className="px-4 py-2 bg-[#204A77] text-white rounded-xl"
         >
           Save
         </button>
