@@ -1,4 +1,5 @@
 import { Inria_Sans } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
 const inria_sans = Inria_Sans({
@@ -14,7 +15,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inria_sans.className}>{children}</body>
+      <body className={inria_sans.className}>
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }
