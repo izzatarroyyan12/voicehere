@@ -1,7 +1,7 @@
-//controller
+//controller user
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { User } = require('../models/user');
+const User = require('../models/user');
 const { v4: uuidv4 } = require('uuid');
 
 const registerUser = async (req, res) => {
@@ -78,9 +78,8 @@ const loginUser = async (req, res) => {
 
 // Logout function
 const logoutUser = async (req, res) => {
-  const token = req.cookies.token;
-
-  if (!token) {
+  const user = req.user;
+  if (!user) {
     return res.status(401).json({ message: 'No user is logged in' });
   }
   try {

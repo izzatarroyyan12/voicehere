@@ -1,3 +1,4 @@
+//dbconnect
 const { Sequelize } = require('sequelize');
 
 // Initialize Sequelize with your database connection details

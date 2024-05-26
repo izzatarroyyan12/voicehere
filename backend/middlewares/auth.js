@@ -4,7 +4,8 @@ const User = require('../models/user');
 
 // Middleware to verify JWT token
 const verifyToken = async (req, res, next) => {
-    const token = req.cookies.token;
+    const authHeader = req.headers.authorization
+    const token = authHeader.split(" ")[1]
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
@@ -17,6 +18,7 @@ const verifyToken = async (req, res, next) => {
         req.user = user; // Set the user object in the request for further use
         next();
     } catch (err) {
+        console.log(err)
         res.status(400).json({ message: 'Invalid token' });
     }
 };
