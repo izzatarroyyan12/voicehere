@@ -35,14 +35,6 @@ export default function Home() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (mode == Mode.PROCESS) {
-  //     setTimeout(() => {
-  //       setMode(Mode.DONE);
-  //     }, 3000);
-  //   }
-  // }, [mode]);
-
   const uploadAudioFile = async (e) => {
     e.preventDefault();
 
@@ -109,20 +101,17 @@ export default function Home() {
 
   const transcribeAudioFile = async () => {
     setMode(Mode.PROCESS);
+    const form = new FormData();
+    form.append('audio', audio);
 
     try {
-      const response = await api.post(
-        '/transcribe',
-        {
-          audio_file: audio.url,
+      const response = await api.post('/transcribe', form, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${Cookies.get('token')}`,
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },
-        },
-      );
+      });
+      console.log(response);
       if (response.status === 200) {
         setMode(Mode.DONE);
         sessionStorage.setItem('transcription', response.data.text);
@@ -237,9 +226,44 @@ export default function Home() {
           Convert Audio to Text In 3 Easy Steps
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          <div className="border border-[#204A77] min-h-[320px] rounded-lg sm:col-span-2 md:col-span-1"></div>
-          <div className="border border-[#204A77] min-h-[320px] rounded-lg"></div>
-          <div className="border border-[#204A77] min-h-[320px] rounded-lg"></div>
+          <div className="border border-[#204A77] min-h-[320px] rounded-lg p-6 sm:col-span-2 md:col-span-1">
+            <div className="flex items-center mb-4">
+              <div className="bg-[#204A77] text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">
+                1
+              </div>
+              <h3 className="text-lg font-semibold">Unggah File Audio Anda</h3>
+            </div>
+            <p className="text-gray-600">
+              Mulailah dengan mengunggah rekaman atau file audio Anda. Kami mendukung berbagai
+              format file seperti MP3, WAV, dan FLAC.
+            </p>
+          </div>
+
+          <div className="border border-[#204A77] min-h-[320px] rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="bg-[#204A77] text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">
+                2
+              </div>
+              <h3 className="text-lg font-semibold">Transcribe Now!</h3>
+            </div>
+            <p className="text-gray-600">
+              Setelah mengunggah file audio Anda, klik tombol "Transcribe Now!" untuk memulai proses
+              konversi dari audio ke teks.
+            </p>
+          </div>
+
+          <div className="border border-[#204A77] min-h-[320px] rounded-lg p-6">
+            <div className="flex items-center mb-4">
+              <div className="bg-[#204A77] text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">
+                3
+              </div>
+              <h3 className="text-lg font-semibold">Tunggu Sebentar</h3>
+            </div>
+            <p className="text-gray-600">
+              Proses konversi mungkin membutuhkan waktu beberapa saat, tergantung pada durasi dan
+              kompleksitas file audio Anda. Harap tunggu dengan sabar.
+            </p>
+          </div>
         </div>
       </div>
     </div>

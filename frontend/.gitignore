@@ -13,6 +13,8 @@
 /.next/
 /out/
 
+/backend/uploads/
+
 # production
 /build
 

@@ -40,7 +40,7 @@ export default function Signup() {
     setWaitingSignupResponse(true);
     try {
       const response = await api.post('/user/signup', signupValue);
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success('Berhasil daftar');
         setWaitingSignupResponse(false);
       }

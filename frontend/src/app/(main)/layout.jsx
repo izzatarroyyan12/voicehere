@@ -27,7 +27,7 @@ export default function Layout({ children }) {
               Riwayat
             </button>
           ) : (
-            <button className="text-2xl text-white" onClick={() => router.push('/result')}>
+            <button className="text-2xl text-white" onClick={() => router.push('/login')}>
               Login
             </button>
           )
