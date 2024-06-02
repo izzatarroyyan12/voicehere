@@ -1,13 +1,55 @@
 // controllers/transcription.js
 const Transcription = require('../models/transcription');
 const User = require('../models/user');
+const OpenAI = require('openai');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-const createTranscription = async (req, res) => {
-  const { audio_file } = req.body;
-  const text = 'This is a dummy transcription';
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_APIKEY,
+  maxRetries: 4,
+  timeout: 60 * 1000, // 60s
+});
 
-  res.status(200).json({ text, audio_file });
+async function whisper({
+  file,
+  model = 'whisper-1',
+  prompt = '',
+  response_format = 'json',
+  temperature = 0,
+  language = 'en',
+}) {
+  const options = {
+    file,
+    model,
+    prompt,
+    response_format,
+    temperature,
+    language,
+  };
+
+  try {
+    const response = await openai.audio.translations.create(options);
+
+    return response;
+  } catch (error) {
+    console.log(error.name, error.message);
+
+    throw error;
+  }
+}
+
+const createTranscription = async (req, res) => {
+  try {
+    const response = await whisper({
+      file: fs.createReadStream(req.file.path),
+      temperature: 1,
+    });
+    res.status(200).json({ text: response.text });
+  } catch (error) {
+    console.error('Error creating transcription:', error.message);
+    res.status(500).json({ error: 'Error creating transcription' });
+  }
 };
 
 // Insert a new transcription
